@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import HelloWorld from  '@/components/HelloWorld.vue'
 
+import Index from '@/components/Index.vue'
+import Hello from '@/components/Hello.vue'
+import SayHiFromVariable from '@/components/SayHiFromVariable.vue'
+import SayHi4Method from '@/components/SayHi4Method.vue'
 
 Vue.use(Router)
 
@@ -27,7 +31,27 @@ export default new Router({
       path: '/helloworld',
       name: 'helloworld',
       component: HelloWorld
-    }
+    },
 
+    {
+      path: '/index',
+      name: 'index',
+      component: Index
+    },
+    {
+      path: '/hello',
+      name: 'hello',
+      component: Hello
+    },
+    {
+      path: '/sayhifromvariable',
+      name: 'sayhifromvariable',
+      component: SayHiFromVariable
+    },
+    {
+      path: '/sayhi4method',
+      name: 'sayhi4method',
+      component: SayHi4Method
+    },
     ]
 })
