@@ -374,3 +374,24 @@ BlogList.vue
 
 ![image-20190811101722178](http://ww4.sinaimg.cn/large/006tNc79ly1g5vj69vmi4j30p20biwgw.jpg)
 
+# 7 路由
+
+假如某个url跳转到`/#/blog?id=3`这个地址 ，那么，这个路由会跳转到blog，参数id=3。具体的设置如下
+
+![image-20190811153428451](http://ww1.sinaimg.cn/large/006tNc79ly1g5vs6f515zj30i40bqq3w.jpg)
+
+假如某个url跳转到`/#/blog/3` 这个url，那么这个路由会跳转到blog，参数是3。具体的设置如下
+
+![image-20190811153607451](http://ww2.sinaimg.cn/large/006tNc79ly1g5vs6g70foj30gz0c9wfg.jpg)
+
+以上2种情况，可以概况下：Vue的路由中,参数获取有两种方式: query 和 params，根据路由获得参数。
+
+![image-20190811153755648](http://ww1.sinaimg.cn/large/006tNc79ly1g5vs6gwgsij30b50gkgmx.jpg)
+
+# 8 使用样式
+
+![image-20190811153817262](http://ww3.sinaimg.cn/large/006tNc79ly1g5vs6hdvlyj30a60fl0tl.jpg)
+
+![image-20190811153827694](http://ww4.sinaimg.cn/large/006tNc79ly1g5vs6ht27mj30bi0gr75f.jpg)
+
+# 9 
