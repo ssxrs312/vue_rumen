@@ -7,6 +7,7 @@ import Index from '@/components/Index.vue'
 import Hello from '@/components/Hello.vue'
 import SayHiFromVariable from '@/components/SayHiFromVariable.vue'
 import SayHi4Method from '@/components/SayHi4Method.vue'
+import BlogList from '@/components/BlogList.vue'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/sayhi4method',
       name: 'sayhi4method',
       component: SayHi4Method
+    },
+    {
+      path: '/bloglist',
+      name: 'bloglist',
+      component: BlogList
     },
     ]
 })

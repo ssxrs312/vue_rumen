@@ -14,6 +14,9 @@
             <li>
                 <router-link :to="{name:'sayhi4method'}">SayHi4Method</router-link>：调用方法
             </li>
+            <li>
+                <router-link :to="{name:'bloglist'}">BlogList</router-link>：发送http请求
+            </li>
         </ul>
 
     </div>
