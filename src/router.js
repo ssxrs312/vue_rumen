@@ -8,6 +8,7 @@ import Hello from '@/components/Hello.vue'
 import SayHiFromVariable from '@/components/SayHiFromVariable.vue'
 import SayHi4Method from '@/components/SayHi4Method.vue'
 import BlogList from '@/components/BlogList.vue'
+import Blog from '@/components/Blog.vue'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/bloglist',
       name: 'bloglist',
       component: BlogList
+    },
+    {
+      path: '/blog',
+      name: 'blog',
+      component: Blog
     },
     ]
 })

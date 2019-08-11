@@ -176,3 +176,201 @@ npm install vue-resource --save
 
 ![image-20190811085650122](http://ww1.sinaimg.cn/large/006tNc79ly1g5vgjlu9n1j30ik0fqwgb.jpg)
 
+# 6 不同页面间参数的传递
+
+- 新建components/Blog.vue
+- 在components/Index.vue中router-link to指向Blog的路径
+- Blog的路径在src/router.js中设置，router.js的routers中设置Blog的路由
+- 浏览器中测试效果
+
+这个单元主要是针对参数传递，前置一个知识点
+
+![image-20190811101957801](http://ww4.sinaimg.cn/large/006tNc79ly1g5vj64ro3ij30gj06xt9o.jpg)
+
+**Blog.vue**，新增一个Vue页面，用于显示博客详情
+
+```vue
+<template>
+    <div>
+        <div>
+            <p>{{ blog.title }}</p>
+            <p>{{ blog.created_at }}</p>
+            <div>
+                {{ blog.body }}
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Blog",
+        data(){
+            return{
+                blog:{}
+            }
+        },
+        mounted(){
+            this.$http.get('api/interface/blogs/show?id='+this.$route.query.id).then((response) => {
+                this.blog = response.body.result
+            },(response) => {
+                console.error(response)
+            })
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+![image-20190811102205431](http://ww2.sinaimg.cn/large/006tNc79ly1g5vj657dwpj30kv048mxy.jpg)
+
+this.$route是页面跳转的意思，query.id是根据url地址中的id参数进行跳转，比如?id=1234。所以等下测试的时候，在地址栏中带上?id=1234即可获得查询结果
+
+**Index.vue**
+
+```vue
+<template>
+    <div>
+        <p id="pid">demo列表</p>
+        <ul>
+            <li>
+                <router-link :to="{name:'blog'}">Blog</router-link>：不同页面间参数的传递
+            </li>
+        </ul>
+
+    </div>
+</template>
+
+```
+
+**router.js**
+
+```js
+
+import Blog from '@/components/Blog.vue'
+
+
+export default new Router({
+  
+  routes: [
+    {
+      path: '/blog',
+      name: 'blog',
+      component: Blog
+    },
+    ]
+})
+
+```
+
+**浏览器**，需要带参数
+
+![image-20190811094346308](http://ww4.sinaimg.cn/large/006tNc79ly1g5vj65p9lwj30pf081ta8.jpg)
+
+如果不带参数，没有?id=1234时会报错404。在没有参数的情况下，id=undefined，id没有定义
+
+![image-20190811094452930](http://ww3.sinaimg.cn/large/006tNc79ly1g5vj664z12j311607gwh1.jpg)
+
+**v-html**
+
+在上面页面中，可以看见html元素<p>等，v-html可以过滤html元素。比如在Blog.vue中修改
+
+```vue
+<template>
+    <div>
+        <div>
+            <p>{{ blog.title }}</p>
+            <p>{{ blog.created_at }}</p>
+            <div v-html="blog.body">
+                {{ blog.body }}
+            </div>
+        </div>
+    </div>
+</template>
+```
+
+**浏览器**
+
+![image-20190811095221614](http://ww3.sinaimg.cn/large/006tNc79ly1g5vj66lz7bj30kr08iq4c.jpg)
+
+**修改博客列表页--跳转方式1: 使用事件**
+
+BlogList.vue
+
+```vue
+<template>
+    <div>
+        <table>
+            <tr v-for="blog in blogs" :key="blog.id">
+                <td @click = 'show_blog(blog.id)'>{{ blog.title }}</td>
+            </tr>
+        </table>
+    </div>
+</template>
+
+<script>
+    export default {
+      ...
+        methods:{
+            show_blog(blog_id){
+                this.$router.push({name:'blog',query:{id:blog_id}})
+            }
+        }
+    }
+</script>
+
+<style scoped>
+    td {
+        border-bottom: 1px solid grey;
+    }
+</style>
+```
+
+![image-20190811102617937](http://ww1.sinaimg.cn/large/006tNc79ly1g5vj67rk5nj30kv06qabs.jpg)
+
+this.$router.push({name:'blog',query:{id:blog_id}})，让vue跳转到name=blog的页面，参数是id=blog_id
+
+**浏览器**，点击列表页中的任意一条，都会跳转到Blog页，于是就实现了不同页面间的参数传递
+
+从bloglist页面点击后，跳转到blog页面，并带有参数?id=1852
+
+说明this.$router.push可以实现页面跳转，并传递参数
+
+![image-20190811101348026](http://ww3.sinaimg.cn/large/006tNc79ly1g5vj68h8odj30kn0bwjud.jpg)
+
+![image-20190811101424959](http://ww3.sinaimg.cn/large/006tNc79ly1g5vj68wgxkj30nx0az0v2.jpg)
+
+**修改博客列表页--跳转方式2: 使用v-link**
+
+BlogList.vue
+
+```vue
+<template>
+    <div>
+        <table>
+            <tr v-for="blog in blogs" :key="blog.id">
+                <td>
+                    <router-link :to="{name:'blog',query:{id:blog.id}}">
+                        {{ blog.id }}
+                    </router-link>
+                </td>
+               	...
+            </tr>
+        </table>
+    </div>
+</template>
+```
+
+**浏览器**，点击列表上的任意一个id，会跳转到Blog页面
+
+从bloglist页面点击id后，跳转到blog页面，并带有参数?id=1852。
+
+说明v-link也可以实现页面跳转，并传递参数
+
+![image-20190811101700074](http://ww1.sinaimg.cn/large/006tNc79ly1g5vj69gc7vj30ma0d9n11.jpg)
+
+![image-20190811101722178](http://ww4.sinaimg.cn/large/006tNc79ly1g5vj69vmi4j30p20biwgw.jpg)
+

@@ -17,6 +17,9 @@
             <li>
                 <router-link :to="{name:'bloglist'}">BlogList</router-link>：发送http请求
             </li>
+            <li>
+                <router-link :to="{name:'blog'}">Blog</router-link>：不同页面间参数的传递
+            </li>
         </ul>
 
     </div>

@@ -2,7 +2,12 @@
     <div>
         <table>
             <tr v-for="blog in blogs" :key="blog.id">
-                <td>{{ blog.title }}</td>
+                <td>
+                    <router-link :to="{name:'blog',query:{id:blog.id}}">
+                        {{ blog.id }}
+                    </router-link>
+                </td>
+                <td @click = 'show_blog(blog.id)'>{{ blog.title }}</td>
             </tr>
         </table>
     </div>
@@ -25,10 +30,17 @@
             }, (response) => {
                 console.error(response)
             });
+        },
+        methods:{
+            show_blog(blog_id){
+                this.$router.push({name:'blog',query:{id:blog_id}})
+            }
         }
     }
 </script>
 
 <style scoped>
-
+    td {
+        border-bottom: 1px solid grey;
+    }
 </style>
