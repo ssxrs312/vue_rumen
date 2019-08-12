@@ -9,6 +9,9 @@ import SayHiFromVariable from '@/components/SayHiFromVariable.vue'
 import SayHi4Method from '@/components/SayHi4Method.vue'
 import BlogList from '@/components/BlogList.vue'
 import Blog from '@/components/Blog.vue'
+import TwoWayBinding from '@/components/TwoWayBinding.vue'
+import FormInput from '@/components/FormInput.vue'
+import FormSubmit from '@/components/FormSubmit.vue'
 
 Vue.use(Router)
 
@@ -64,6 +67,21 @@ export default new Router({
       path: '/blog',
       name: 'blog',
       component: Blog
+    },
+    {
+      path: '/twowaybinding',
+      name: 'twowaybinding',
+      component: TwoWayBinding
+    },
+    {
+      path: '/forminput',
+      name: 'forminput',
+      component: FormInput
+    },
+    {
+      path: '/formsubmit',
+      name: 'formsubmit',
+      component: FormSubmit
     },
     ]
 })

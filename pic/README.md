@@ -394,4 +394,294 @@ BlogList.vue
 
 ![image-20190811153827694](http://ww4.sinaimg.cn/large/006tNc79ly1g5vs6ht27mj30bi0gr75f.jpg)
 
-# 9 
+# 9 双向绑定
+
+v-model指令，可以实现输入=输出的双向绑定。如下
+
+![image-20190811160016109](http://ww4.sinaimg.cn/large/006tNc79ly1g5wnbck3klj307r0buaas.jpg)
+
+- 新建components/TwoWayBinding.vue
+- 在components/Index.vue中router-link to指向TwoWayBinding的路径
+- TwoWayBinding的路径在src/router.js中设置，router.js的routers中设置TwoWayBinding的路由
+- 浏览器中测试效果
+
+**TwoWayBinding.vue**
+
+```vue
+<template>
+    <div>
+        <p>页面上的值：{{ my_value }}</p>
+        <p> 通过视图层，修改my_value: </p>
+        <input v-model="my_value" style='width: 400px'/>
+
+        <hr />
+        <input type="button" @click = "change_my_value_by_code()" value="通过控制代码修改my_value">
+        <hr />
+        <input type="button" @click = "show_my_value()" value="显示代码中的my_value">
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "TwoWayBinding",
+        data(){
+            return{
+                my_value: '默认值',
+            }
+        },
+        methods:{
+            show_my_value(){
+                alert("my_value:" + this.my_value)
+            },
+            change_my_value_by_code(){
+                this.my_value += ", 在代码中做修改, 666."
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+**Index.vue**
+
+```vue
+<template>
+    <div>
+        <p id="pid">demo列表</p>
+        <ul>
+            
+            <li>
+                <router-link :to="{name:'twowaybinding'}">TwoWayBinding</router-link>：双向绑定
+            </li>
+        </ul>
+
+    </div>
+</template>
+```
+
+**router.js**
+
+```js
+...
+import TwoWayBinding from '@/components/TwoWayBinding.vue'
+
+export default new Router({
+  ...
+  routes: [
+    ...
+    {
+      path: '/twowaybinding',
+      name: 'twowaybinding',
+      component: TwoWayBinding
+    },
+    ]
+})
+```
+
+**浏览器**
+
+![image-20190811161436911](http://ww3.sinaimg.cn/large/006tNc79ly1g5wnbd0f2gj30hr09rab0.jpg)
+
+# 10 表单的绑定
+
+- 新建components/FormInput.vue
+- 在components/Index.vue中router-link to指向FormInput的路径
+- FormInput的路径在src/router.js中设置，router.js的routers中设置FormInput的路由
+- 浏览器中测试效果
+
+**ForeInput.vue**
+
+```vue
+<template>
+    <div>
+        input:<input type="text" v-model="input_value"/>
+        输入的值：{{ input_value }}
+        <hr/>
+
+        text area:<textarea v-model="textarea_value"></textarea>
+        输入的值：{{ textarea_value }}
+        <hr/>
+
+        radio:
+        <input type="radio" v-model="radio_value" value="A" />A,
+        <input type="radio" v-model="radio_value" value="B" />B,
+        <input type="radio" v-model="radio_value" value="C" />C,
+        输入的值：{{ radio_value }}
+        <hr/>
+
+        checkbox:
+        <input type="checkbox" v-model="checkbox_value" :true-value="true" :false-value="false" />
+        输入的值：{{ checkbox_value }}
+        <br/>
+
+        select:
+        <select v-model="select_value">
+            <option v-for="e in options" :value="e.value" :key="e.id">
+                {{ e.text }}
+            </option>
+        </select>
+        输入的值：{{ select_value }}
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "FormInput",
+        data(){
+            return{
+                input_value:'',
+                textarea_value:'',
+                radio_value:'',
+                checkbox_value:'',
+                select_value:'',
+                options:[
+                    {id:1,text:'红烧肉',value:'A'},
+                    {id:2,text:'红烧鱼',value:'B'},
+                    {id:3,text:'红烧排骨',value:'C'}
+                ]
+
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+在上面的代码中，需要说明下:true-value="true" :false-value="false"。官方教程有说明，请参考[表单输入绑定](https://cn.vuejs.org/v2/guide/forms.html)，v-model是双向绑定，一方面要绑定变量，变量负责显示在页面，可以理解为v-model的输出，上面的代码中，绑定的是checkbox_value。另一方面要绑定checkbox的值value，当选中checkbox时，这个值value变成了v-model的输入了。一般来说，value是静态字符串，只有1个value，而例子中，value有多个值，所以官方说可以绑定动态值，这就出现了:true-value="true" :false-value="false"。意思就是，输入到v-model中的值有多个，当选择checkbox时为true，当没有选择checkbox时，为false。也可以写成:true-value="1" :false-value="0"
+
+**Index.vue**
+
+```vue
+<template>
+    <div>
+        <p id="pid">demo列表</p>
+        <ul>
+            ...
+            <li>
+                <router-link :to="{name:'forminput'}">FormInput</router-link>：表单的绑定
+            </li>
+        </ul>
+
+    </div>
+</template>
+```
+
+**router.js**
+
+```js
+...
+import FormInput from '@/components/FormInput.vue'
+
+export default new Router({
+ ...
+  routes: [
+   ...
+    {
+      path: '/forminput',
+      name: 'forminput',
+      component: FormInput
+    },
+    ]
+})
+```
+
+**浏览器**
+
+![image-20190812081326046](http://ww1.sinaimg.cn/large/006tNc79ly1g5wnbe0hxxj30ip09mabb.jpg)
+
+# 11 表单的提交
+
+![image-20190812092006351](http://ww1.sinaimg.cn/large/006tNc79ly1g5wnbexj4zj30mr09oabj.jpg)
+
+![image-20190812092400184](http://ww2.sinaimg.cn/large/006tNc79ly1g5wnbfdfqfj30m40ehwg9.jpg)
+
+- 新建components/FormSubmit.vue
+- 在components/Index.vue中router-link to指向FormSubmit的路径
+- FormSubmit的路径在src/router.js中设置，router.js的routers中设置FormSubmit的路由
+- 浏览器中测试效果
+
+**FormSubmit.vue**
+
+```vue
+<template>
+    <div>
+        <textarea v-model="content">
+
+        </textarea>
+        <br/>
+        <input type="button" @click="submit" value="留言">
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "FormSubmit",
+        data(){
+            return{
+                content:''
+            }
+        },
+        methods:{
+            submit(){
+                this.$http.post('/api/interface/blogs/add_comment',{content:this.content}).then((response) =>{
+                    alert("提交成功!, 刚才提交的内容是：" + response.body.content)
+                },(response) =>{
+                    alert("出错了");
+                    console.error(response)
+                })
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+**Index.vue**
+
+```vue
+<template>
+    <div>
+        <p id="pid">demo列表</p>
+        <ul>
+            ...
+            <li>
+                <router-link :to="{name:'formsubmit'}">FormSubmit</router-link>：表单的提交
+            </li>
+        </ul>
+
+    </div>
+</template>
+```
+
+**router.js**
+
+```js
+...
+import FormSubmit from '@/components/FormSubmit.vue'
+...
+export default new Router({
+  ...
+  routes: [
+   ...
+    {
+      path: '/formsubmit',
+      name: 'formsubmit',
+      component: FormSubmit
+    },
+    ]
+})
+```
+
+**浏览器**
+
+![image-20190812093824768](http://ww3.sinaimg.cn/large/006tNc79ly1g5wnbfwg1fj30n206j3zk.jpg)
+
