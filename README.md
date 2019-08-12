@@ -1,3 +1,23 @@
+# Table of Contents
+
+* [1 新建一个页面Index](#1-新建一个页面index)
+* [2 显示最基本的Vuejs](#2-显示最基本的vuejs)
+* [3 渲染某个变量](#3-渲染某个变量)
+* [4 调用方法](#4-调用方法)
+* [5 发送http请求](#5-发送http请求)
+* [6 不同页面间参数的传递](#6-不同页面间参数的传递)
+* [7 路由](#7-路由)
+* [8 使用样式](#8-使用样式)
+* [9 双向绑定](#9-双向绑定)
+* [10 表单的绑定](#10-表单的绑定)
+* [11 表单的提交](#11-表单的提交)
+* [12 组件](#12-组件)
+* [13 mixin](#13-mixin)
+* [14 vuex](#14-vuex)
+* [15 生命周期](#15-生命周期)
+* [16 参考资料](#16-参考资料)
+
+
 
 
 # 1 新建一个页面Index
@@ -1124,4 +1144,18 @@ export default new Router({
 ![image-20190812184244290](http://ww4.sinaimg.cn/large/006tNc79ly1g5x3e777npj30fh08iwfa.jpg)
 
 ![image-20190812184255627](http://ww3.sinaimg.cn/large/006tNc79ly1g5x3e7ihirj30ht08k0tl.jpg)
+
+# 15 生命周期
+
+![image-20190812190044758](http://ww3.sinaimg.cn/large/006tNc79ly1g5x3x5ruvfj30ff06p0ti.jpg)
+
+# 16 参考资料
+
+[vuejs 教程](http://vue_book.siwei.me/)
+
+[打包和部署](http://vue_book.siwei.me/build_project.html)
+
+[nginx跨域](http://vue_book.siwei.me/nginx_fix_cross_domain_problem.html)
+
+[debug](http://vue_book.siwei.me/how_to_debug.html)
 
