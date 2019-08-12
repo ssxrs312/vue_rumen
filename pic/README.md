@@ -958,3 +958,170 @@ export default new Router({
 
 ![image-20190812162621857](http://ww4.sinaimg.cn/large/006tNc79ly1g5wz6pd6b7j30i006rwf7.jpg)
 
+# 14 vuex
+
+Vuex 是 状态管理工具.
+
+简单的说, Vuex 帮我们管理 "全局变量", 供任何页面在任何时刻使用.
+
+Vuex 非常重要. 不管是大项目还是小项目,都有用到它的时候. 我们必须会用.
+
+**store.js**就是vuex定义的地方
+
+- state：数据的存储，相当于数据池子，状态池
+- getters：相当于vue中的计算属性computer，可以筛选、计算。现在没有可以在state后面添加
+- mutations：相当于函数，改变state的唯一途径。不能处理异步，只能处理同步
+- actions：跟mutations差不多，可以处理异步。提交的是mutations，而不是直接变更状态
+- module：模块化，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {  
+   
+  },
+  mutations: {  
+   
+  },
+  actions: {  
+    
+  }
+})
+```
+
+vue3.x创建的时候store.js就是这样的，假设我们有两个页面: "页面1" 和"页面2" ，共同使用某一个状态，页面1对 "状态" + 1 后, 页面2的值也会发生变化。接下来在store.js中进行配置
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {  //状态
+    points:10
+  },
+  mutations: {  //变化,可以认为所有的state都是由mutation来驱动变化的。 也可以认为它是个setter.
+    increase(state,data){
+        state.points = data ;
+    }
+  },
+  actions: {  //行动，提交的是mutations，而不是直接变更状态
+    increaseAction({commit},data){
+        commit('increase',data);
+    }
+  },
+  getters:{  //相当于vue中的计算属性computer
+    get_points:state =>{
+        return state.points
+    }
+  }
+})
+```
+
+上面的代码中，
+
+- 在actions中定义提交mutations的方法increaseAction，方法里面的{commit}是es6语法，官方有具体的解释[action使用说明](https://vuex.vuejs.org/zh/guide/actions.html)
+- 在mutations中定义改变points的方法increase，有2个参数，第一个是state，第二个是形参
+
+接下来要创建页面1和页面2，步骤如下
+
+- 新建components/ShowCounter1.vue
+- 在components/ShowCounter1.vue引用store
+- 在components/Index.vue中router-link to指向ShowCounter1的路径
+- ShowCounter1的路径在src/router.js中设置，router.js的routers中设置ShowCounter1的路由
+- 重复ShowCounter1的步骤创建ShowCounter2.vue
+- 浏览器中测试效果
+
+**ShowCounter1.vue**
+
+```vue
+<template>
+    <div>
+        <h1>这个页面是 1号页面</h1>
+        {{ points }}
+        <br/>
+
+        <input type="button" @click="increase" value="点击增加1"><br/>
+        <router-link :to="{name: 'showcounter2'}">计数页面2</router-link>
+    </div>
+</template>
+
+<script>
+    import store from '@/store.js'
+    export default {
+        name: "ShowCounter1",
+        computed:{
+            points(){
+                return store.getters.get_points;
+            }
+        },
+        methods:{
+            increase(){
+                store.commit('increase',store.getters.get_points + 1)
+            }
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+页面2和上面的代码几乎一样，上面的代码中，使用getters需要在computed中计算，也就是说需要获取state状态是需要computed的，不论这个状态是静态的，或者需要动态赋值的。`store.getters.get_points` 就是通过`getter`获取到 状态“points"的方法。`store.commit('increase', .. )` 则是 通过 increaseAction 这个`action` 来改变 "points"的值。action提交的是mutations，而不是直接变更状态，所以'increase'指的是mutations的方法，后面的参数是给mutations方法的第二个参数传值
+
+**router.js**
+
+```js
+...
+import ShowCounter1 from '@/components/ShowCounter1.vue'
+import ShowCounter2 from '@/components/ShowCounter2.vue'
+
+Vue.use(Router)
+
+export default new Router({
+  
+  routes: [
+   ...
+    {
+      path: '/showcounter1',
+      name: 'showcounter1',
+      component: ShowCounter1
+    },
+    {
+      path: '/showcounter2',
+      name: 'showcounter2',
+      component: ShowCounter2
+    },
+    ]
+})
+```
+
+**Index.vue**
+
+```vue
+<template>
+    <div>
+        <p id="pid">demo列表</p>
+        <ul>
+
+         <li>
+                <router-link :to="{name:'showcounter1'}">ShowCounter1</router-link>：vuex
+            </li>
+        </ul>
+
+    </div>
+</template>
+```
+
+**浏览器**
+
+![image-20190812184244290](http://ww4.sinaimg.cn/large/006tNc79ly1g5x3e777npj30fh08iwfa.jpg)
+
+![image-20190812184255627](http://ww3.sinaimg.cn/large/006tNc79ly1g5x3e7ihirj30ht08k0tl.jpg)
+

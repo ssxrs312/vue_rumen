@@ -13,6 +13,8 @@ import TwoWayBinding from '@/components/TwoWayBinding.vue'
 import FormInput from '@/components/FormInput.vue'
 import FormSubmit from '@/components/FormSubmit.vue'
 import SayHiFromMixin from '@/components/SayHiFromMixin.vue'
+import ShowCounter1 from '@/components/ShowCounter1.vue'
+import ShowCounter2 from '@/components/ShowCounter2.vue'
 
 Vue.use(Router)
 
@@ -88,6 +90,16 @@ export default new Router({
       path: '/sayhifrommixin',
       name: 'sayhifrommixin',
       component: SayHiFromMixin
+    },
+    {
+      path: '/showcounter1',
+      name: 'showcounter1',
+      component: ShowCounter1
+    },
+    {
+      path: '/showcounter2',
+      name: 'showcounter2',
+      component: ShowCounter2
     },
     ]
 })

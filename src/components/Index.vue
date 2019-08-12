@@ -30,7 +30,12 @@
                 <router-link :to="{name:'formsubmit'}">FormSubmit</router-link>：表单的提交
             </li>
             <li>
+                <router-link :to="{name:'bloglist'}">BlogList</router-link>：组件（在BlogList页面增加组件Logo.vue）
+            </li>
+            <li>
                 <router-link :to="{name:'sayhifrommixin'}">SayHiFromMixin</router-link>：mixin
+            </li> <li>
+                <router-link :to="{name:'showcounter1'}">ShowCounter1</router-link>：vuex
             </li>
         </ul>
 
