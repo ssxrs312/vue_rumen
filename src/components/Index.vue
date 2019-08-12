@@ -29,6 +29,9 @@
             <li>
                 <router-link :to="{name:'formsubmit'}">FormSubmit</router-link>：表单的提交
             </li>
+            <li>
+                <router-link :to="{name:'sayhifrommixin'}">SayHiFromMixin</router-link>：mixin
+            </li>
         </ul>
 
     </div>

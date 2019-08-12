@@ -863,3 +863,98 @@ export default new Router({
 
 ![image-20190812113848172](http://ww4.sinaimg.cn/large/006tNc79ly1g5wqsd35nej30ow0lgjxn.jpg)
 
+# 13 mixin
+
+![image-20190812154522657](http://ww3.sinaimg.cn/large/006tNc79ly1g5wz6o3sdhj30mn05fdgr.jpg)
+
+- 新建mixins/common_hi.js
+- 新建components/SayHiFromMixin.vue
+- 在components/SayHiFromMixin.vue引用mixins
+- 在components/Index.vue中router-link to指向SayHiFromMixin的路径
+- SayHiFromMixin的路径在src/router.js中设置，router.js的routers中设置SayHiFromMixin的路由
+- 浏览器中测试效果
+
+**common_hi.js**
+
+```js
+export default{
+    methods:{
+        hi(name){
+            return "你好, " + name;
+        }
+    }
+}
+```
+
+**SayHiFromMixin.vue**
+
+```vue
+<template>
+    <div>
+        {{ hi('from view') }}
+    </div>
+</template>
+
+<script>
+    import CommonHi from '@/mixins/common_hi.js'
+
+    export default {
+        name: "SayHiFromMixin",
+        mixins : [CommonHi],
+        mounted(){
+            alert(this.hi('from script code'))
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+![image-20190812162721077](http://ww4.sinaimg.cn/large/006tNc79ly1g5wz6ow8v9j30dq02zjrn.jpg)
+
+另外，在div中使用hi()，没有带this关键字，说明只有在js中调用需要带上this关键字。
+
+**Index.vue**
+
+```vue
+<template>
+    <div>
+        <p id="pid">demo列表</p>
+        <ul>
+            
+            <li>
+                <router-link :to="{name:'sayhifrommixin'}">SayHiFromMixin</router-link>：mixin
+            </li>
+        </ul>
+
+    </div>
+</template>
+```
+
+**router.js**
+
+```js
+...
+import SayHiFromMixin from '@/components/SayHiFromMixin.vue'
+
+...
+
+export default new Router({
+...
+  routes: [
+ ...
+    {
+      path: '/sayhifrommixin',
+      name: 'sayhifrommixin',
+      component: SayHiFromMixin
+    },
+    ]
+})
+```
+
+**浏览器**
+
+![image-20190812162621857](http://ww4.sinaimg.cn/large/006tNc79ly1g5wz6pd6b7j30i006rwf7.jpg)
+
