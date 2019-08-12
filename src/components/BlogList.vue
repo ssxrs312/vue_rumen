@@ -1,5 +1,10 @@
 <template>
     <div>
+        <my-logo :title = "title">
+        </my-logo>
+        <input type='button' @click='change_title' value='点击修改标题'/><br/>
+        <br/>
+
         <table>
             <tr v-for="blog in blogs" :key="blog.id">
                 <td>
@@ -14,6 +19,8 @@
 </template>
 
 <script>
+    import MyLogo from '@/components/Logo.vue'
+
     export default {
         name: "BlogList",
         data(){
@@ -34,7 +41,13 @@
         methods:{
             show_blog(blog_id){
                 this.$router.push({name:'blog',query:{id:blog_id}})
+            },
+            change_title(){
+                this.title = '好多文章啊(标题被代码修改过了)'
             }
+        },
+        components:{
+            MyLogo
         }
     }
 </script>

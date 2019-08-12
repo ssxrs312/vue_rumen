@@ -685,3 +685,181 @@ export default new Router({
 
 ![image-20190812093824768](http://ww3.sinaimg.cn/large/006tNc79ly1g5wnbfwg1fj30n206j3zk.jpg)
 
+# 12 组件
+
+先通过一个案例，看下什么是组件
+
+![image-20190812104545057](http://ww1.sinaimg.cn/large/006tNc79ly1g5wqs7zvhqj30hk0h841z.jpg)
+
+![image-20190812104558898](http://ww4.sinaimg.cn/large/006tNc79ly1g5wqs8d3ixj30gw09tmyt.jpg)
+
+![image-20190812104607699](http://ww3.sinaimg.cn/large/006tNc79ly1g5wqs8v7btj30hj0e80ud.jpg)
+
+在上面的案例中，<ol>使用了组件todo-item，组件todo-item在定义时有props、template。props是组件的自定义属性，相当于变量数组。这个数组中可以放入很多属性，相当于变量比如todo，这样页面html在使用组件的时候，根据需要可以让这个属性变量等于需要的某个值。template是模板的意思，相当于自定义的html标签，比如案例中template:'<li>{{ todo.text }}</li>'，说明此时的template是一个li标签，引用这个标签的时候，输出todo.text。
+
+组件最重要的作用：重用。
+
+![image-20190812110113985](http://ww2.sinaimg.cn/large/006tNc79ly1g5wqs9a5owj30ly0e0gnh.jpg)
+
+- 新建components/Logo.vue
+- 在页面BlogList.vue中引入组件Logo.vue
+- 浏览器中测试效果
+
+**Logo.vue**
+
+```vue
+<template>
+    <div class="logo">
+
+        <img src="http://img.mm4000.com/file/a/bd/c072117c48_1044.jpg" width="20%" height="20%">
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Logo",
+
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+**BlogList.vue**
+
+```vue
+<template>
+    <div>
+        <my-logo>
+        </my-logo>
+        ...
+    </div>
+</template>
+
+<script>
+    import MyLogo from '@/components/Logo.vue'
+
+    export default {
+        ...
+        components:{
+            MyLogo
+        }
+    }
+</script>
+
+<style scoped>
+    
+</style>
+```
+
+![image-20190812112058389](http://ww1.sinaimg.cn/large/006tNc79ly1g5wqsa9t07j30eb055gm2.jpg)
+
+**浏览器**
+
+![image-20190812112146014](http://ww3.sinaimg.cn/large/006tNc79ly1g5wqsarqwqj30pc0l2jxv.jpg)
+
+**向组件中传递参数**
+
+![image-20190812112351070](http://ww4.sinaimg.cn/large/006tNc79ly1g5wqsbp0joj30m30dcab8.jpg)
+
+![image-20190812112524201](http://ww4.sinaimg.cn/large/006tNc79ly1g5wqsc4efjj30me06g0t3.jpg)
+
+**Logo.vue**
+
+```vue
+<template>
+    <div class="logo">
+        <h1>{{ title }}</h1>
+        <img src="http://img.mm4000.com/file/a/bd/c072117c48_1044.jpg" width="20%" height="20%">
+    </div>
+</template>
+
+<script>
+    export default {
+        name: "Logo",
+        props:['title'],
+    }
+</script>
+
+<style scoped>
+
+</style>
+```
+
+**BlogList.vue**
+
+```vue
+<template>
+    <div>
+        <my-logo title = "demo">
+        </my-logo>
+        ...
+    </div>
+</template>
+
+<script>
+    import MyLogo from '@/components/Logo.vue'
+
+    export default {
+       ...
+        components:{
+            MyLogo
+        }
+    }
+</script>
+
+<style scoped>
+    
+</style>
+```
+
+浏览器
+
+![image-20190812113231305](http://ww4.sinaimg.cn/large/006tNc79ly1g5wqscle53j30pc0jkte7.jpg)
+
+**接收变量**
+
+**BlogList.vue**
+
+```vue
+<template>
+    <div>
+        <my-logo :title = "title">
+        </my-logo>
+        <input type='button' @click='change_title' value='点击修改标题'/><br/>
+
+        ...
+    </div>
+</template>
+
+<script>
+    import MyLogo from '@/components/Logo.vue'
+
+    export default {
+        data(){
+            return{
+                title: '博客列表页',
+            }
+        },
+        methods:{
+            change_title(){
+                this.title = '好多文章啊(标题被代码修改过了)'
+            }
+        },
+        components:{
+            MyLogo
+        }
+    }
+</script>
+
+<style scoped>
+   
+</style>
+```
+
+**浏览器**
+
+![image-20190812113848172](http://ww4.sinaimg.cn/large/006tNc79ly1g5wqsd35nej30ow0lgjxn.jpg)
+
